@@ -211,6 +211,11 @@ body.loading { overflow: hidden; }
     margin-top: 15px; border: 1px solid rgba(255,255,255,0.03);
     transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
     animation: slideUpFade 0.5s ease-out forwards;
+
+    /* Horizontal Layout */
+    display: flex;
+    align-items: center;
+    gap: 30px; /* Increased gap for better separation */
 }
 .activity-card:hover {
     transform: translateY(-2px) scale(1.02);
@@ -220,11 +225,18 @@ body.loading { overflow: hidden; }
 }
 
 .activity-label {
-    font-size: 0.7rem; font-weight: 800; letter-spacing: 1px;
-    color: var(--text-dim); margin-bottom: 15px; text-transform: uppercase;
-    display: flex; align-items: center; gap: 8px;
+    font-size: 0.8rem; font-weight: 900; letter-spacing: 1px;
+    color: #ffffff; text-transform: uppercase;
+    display: flex; align-items: center;
+    flex-shrink: 0; /* Don't shrink label */
+    margin-bottom: 0;
+    margin-right: 10px; /* Extra margin for safety */
+    opacity: 0.9;
 }
-.activity-content { display: flex; gap: 18px; align-items: center; }
+.activity-content {
+    display: flex; gap: 18px; align-items: center;
+    flex-grow: 1;
+}
 .activity-img-wrapper {
     width: 70px; height: 70px; border-radius: 12px; overflow: hidden; flex-shrink: 0;
     background: #111; box-shadow: 0 5px 15px rgba(0,0,0,0.3);
@@ -385,6 +397,11 @@ section { padding: 100px 0; }
     .hero-btns { justify-content: center; }
     .about-container { grid-template-columns: 1fr; }
     .about-visual { order: 2; }
+}
+
+@media (max-width: 480px) {
+    .activity-card { flex-wrap: wrap; }
+    .activity-label { width: 100%; margin-bottom: 10px; }
 }
 
 @media (max-width: 768px) {
