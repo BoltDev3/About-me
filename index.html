@@ -1,158 +1,252 @@
 <!DOCTYPE html>
-<html lang="de">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BOLT DEV | About me</title>
+    <title>BOLT DEV | Full Stack Developer</title>
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="icon" type="image/png" href="BOLT DEV (1).png">
+    <meta name="description" content="Bolt Dev - 13 Year Old Web3 & Discord Bot Developer">
 </head>
 <body class="loading">
 
+    <!-- LOADER -->
     <div id="loader-wrapper">
         <div class="loader-content">
             <div class="loader-logo">BOLT<span>DEV</span></div>
-            <div class="loader-progress-container"><div class="loader-progress-bar"></div></div>
-            <div class="loader-status">INITIALIZING SYSTEMS... <span class="percent">0%</span></div>
+            <div class="loader-bar-bg"><div class="loader-bar-fill"></div></div>
+            <div class="loader-text">SYSTEM INITIALIZATION <span class="percent">0%</span></div>
         </div>
     </div>
 
+    <!-- CUSTOM CURSOR -->
     <div id="cursor-dot"></div>
     <div id="cursor-outline"></div>
 
+    <!-- BACKGROUND -->
     <div class="bg-glow"></div>
     <div class="grid-overlay"></div>
 
+    <!-- NAVIGATION -->
     <nav class="glass-nav">
         <div class="nav-container">
             <div class="logo">BOLT<span>DEV</span></div>
             <ul class="nav-links">
-                <li><a href="#home" class="nav-item">Home</a></li>
-                <li><a href="#projects" class="nav-item">Projects</a></li>
-                <li><a href="#about" class="nav-item">About</a></li>
+                <li><a href="#home" class="nav-link">Home</a></li>
+                <li><a href="#stack" class="nav-link">Stack</a></li>
+                <li><a href="#projects" class="nav-link">Projects</a></li>
+                <li><a href="#about" class="nav-link">About</a></li>
             </ul>
-            <a href="https://github.com/Boltdev3" class="github-pill"><i class="fab fa-github"></i> <span>GitHub</span></a>
+            <a href="https://github.com/Boltdev3" target="_blank" class="nav-btn"><i class="fab fa-github"></i> GitHub</a>
         </div>
     </nav>
 
-    <header id="home">
-        <div class="hero-wrapper"> <div class="hero-main"> <div class="hero-text-content">
-                    <div class="badge animate-init">WEB3 & DISCORD BOT DEVELOPER</div>
-                    <h1 class="animate-init">Crafting <span class="gradient-text">Digital</span> Futures</h1>
-                    <p class="animate-init">I am Bolt Dev a 13 Year Old Teenager that likes to Code anything. From Websites to Discord Bots.</p>
-                    <div class="hero-actions animate-init">
-                        <a href="#projects" class="btn-main">View Work</a>
-                        <a href="#about" class="btn-sub">About Me</a>
+    <main>
+        <!-- HERO SECTION -->
+        <section id="home" class="hero-section">
+            <div class="container hero-container">
+                <div class="hero-text">
+                    <div class="badge fade-in-up">WEB3 & DISCORD BOT DEVELOPER</div>
+                    <h1 class="fade-in-up delay-1">Crafting <span class="gradient-text">Digital</span> Futures</h1>
+                    <p class="fade-in-up delay-2">I'm Bolt Dev, a 13-year-old developer passionate about building immersive web experiences and powerful Discord ecosystems.</p>
+                    <div class="hero-btns fade-in-up delay-3">
+                        <a href="#projects" class="btn btn-primary">View Work</a>
+                        <a href="#about" class="btn btn-secondary">More About Me</a>
                     </div>
                 </div>
 
-                <div class="hero-visual animate-init">
-                    <div id="discord-profile" class="glass-card discord-card">
+                <div class="hero-visual fade-in-up delay-4">
+                    <div class="discord-card glass-card">
                         <div class="card-header">
-                            <div class="status-badge">LIVE STATUS</div>
-                            <div class="discord-tag"><i class="fab fa-discord"></i></div>
+                            <span class="status-badge">LIVE STATUS</span>
+                            <i class="fab fa-discord discord-icon"></i>
                         </div>
-                        <div class="profile-main">
-                            <div class="avatar-container">
-                                <img id="discord-avatar" src="" alt="Avatar">
-                                <div id="status-indicator"></div>
+
+                        <div class="profile-info">
+                            <div class="avatar-wrapper">
+                                <img id="discord-avatar" src="https://cdn.discordapp.com/embed/avatars/0.png" alt="Avatar">
+                                <div id="discord-status-indicator"></div>
                             </div>
-                            <div class="user-details">
-                                <h2 id="discord-name">bolt_dev</h2>
-                                <p id="discord-status-text">ONLINE</p>
+                            <div class="user-text">
+                                <h2 id="discord-username">Loading...</h2>
+                                <p id="discord-custom-status">Fetching status...</p>
                             </div>
                         </div>
-                        <div id="spotify-widget" class="spotify-container">
-                            <div class="spotify-info">
-                                <div class="spot-icon"><i class="fab fa-spotify"></i></div>
-                                <div class="spot-text">
-                                    <span class="spot-label">LISTENING TO</span>
-                                    <span id="spotify-song">No music playing</span>
+
+                        <!-- GAME ACTIVITY -->
+                        <div id="game-activity" class="activity-card" style="display: none;">
+                            <div class="activity-label">PLAYING</div>
+                            <div class="activity-content">
+                                <div class="activity-img-wrapper">
+                                    <img id="game-image" src="" alt="Game Art">
+                                </div>
+                                <div class="activity-details">
+                                    <h4 id="game-name">Game Name</h4>
+                                    <p id="game-details">In Menu</p>
+                                    <p id="game-state">Waiting...</p>
+                                    <p id="game-time">00:00 elapsed</p>
                                 </div>
                             </div>
-                            <div class="spot-progress"><div id="spotify-bar" class="spot-bar-fill"></div></div>
+                        </div>
+
+                        <!-- SPOTIFY ACTIVITY -->
+                        <div id="spotify-activity" class="activity-card spotify-card" style="display: none;">
+                            <div class="activity-label"><i class="fab fa-spotify"></i> LISTENING TO SPOTIFY</div>
+                            <div class="activity-content">
+                                <div class="activity-img-wrapper">
+                                    <img id="spotify-art" src="" alt="Album Art">
+                                </div>
+                                <div class="activity-details">
+                                    <h4 id="spotify-song">Song Title</h4>
+                                    <p id="spotify-artist">Artist</p>
+                                    <div class="progress-bar-container">
+                                        <div id="spotify-progress" class="progress-bar"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- TECH STACK SECTION -->
+        <section id="stack" class="stack-section reveal">
+            <div class="container">
+                <div class="section-header center">
+                    <span class="badge">MY TOOLKIT</span>
+                    <h2>Technologies <span class="gradient-text">I Use</span></h2>
+                </div>
+                <div class="stack-grid">
+                    <div class="stack-item"><i class="fab fa-html5"></i><span>HTML5</span></div>
+                    <div class="stack-item"><i class="fab fa-css3-alt"></i><span>CSS3</span></div>
+                    <div class="stack-item"><i class="fab fa-js"></i><span>JavaScript</span></div>
+                    <div class="stack-item"><i class="fab fa-node"></i><span>Node.js</span></div>
+                    <div class="stack-item"><i class="fab fa-discord"></i><span>Discord.js</span></div>
+                    <div class="stack-item"><i class="fab fa-python"></i><span>Python</span></div>
+                    <div class="stack-item"><i class="fas fa-database"></i><span>MongoDB</span></div>
+                    <div class="stack-item"><i class="fab fa-git-alt"></i><span>Git</span></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- PROJECTS SECTION -->
+        <section id="projects" class="projects-section reveal">
+            <div class="container">
+                <div class="section-header">
+                    <span class="badge">PORTFOLIO</span>
+                    <h2>Featured <span class="gradient-text">Projects</span></h2>
+                </div>
+
+                <div class="projects-grid">
+                    <!-- Project 1 -->
+                    <article class="project-card">
+                        <div class="project-image">
+                            <div class="placeholder-art"></div>
+                            <div class="project-links">
+                                <a href="#" title="View Code"><i class="fab fa-github"></i></a>
+                                <a href="#" title="Live Demo"><i class="fas fa-external-link-alt"></i></a>
+                            </div>
+                        </div>
+                        <div class="project-info">
+                            <span class="project-cat">DISCORD BOT</span>
+                            <h3>Moderation Bot</h3>
+                            <p>A powerful discord bot for server management with advanced logging and auto-moderation features.</p>
+                            <div class="project-tags">
+                                <span>Node.js</span>
+                                <span>Discord.js</span>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- Project 2 -->
+                    <article class="project-card">
+                        <div class="project-image">
+                            <div class="placeholder-art two"></div>
+                            <div class="project-links">
+                                <a href="#" title="View Code"><i class="fab fa-github"></i></a>
+                                <a href="#" title="Live Demo"><i class="fas fa-external-link-alt"></i></a>
+                            </div>
+                        </div>
+                        <div class="project-info">
+                            <span class="project-cat">WEB APP</span>
+                            <h3>Portfolio V2</h3>
+                            <p>The updated version of my personal portfolio website with Lanyard API integration.</p>
+                            <div class="project-tags">
+                                <span>HTML</span>
+                                <span>CSS</span>
+                                <span>JS</span>
+                            </div>
+                        </div>
+                    </article>
+
+                     <!-- Project 3 -->
+                     <article class="project-card">
+                        <div class="project-image">
+                            <div class="placeholder-art three"></div>
+                            <div class="project-links">
+                                <a href="#" title="View Code"><i class="fab fa-github"></i></a>
+                            </div>
+                        </div>
+                        <div class="project-info">
+                            <span class="project-cat">TOOL</span>
+                            <h3>API Wrapper</h3>
+                            <p>A simple wrapper for a public API to make development easier for beginners.</p>
+                            <div class="project-tags">
+                                <span>Python</span>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <!-- ABOUT SECTION -->
+        <section id="about" class="about-section reveal">
+            <div class="container about-container">
+                <div class="about-visual">
+                    <div class="image-card">
+                        <div class="glitch-box"></div>
+                    </div>
+                </div>
+                <div class="about-content">
+                    <span class="badge">WHO AM I?</span>
+                    <h2>About <span class="gradient-text">Me</span></h2>
+                    <p>I am a 13-year-old developer from Germany. I started coding when I was 12 and fell in love with creating things for the web. My main focus is on Discord Bots and Websites.</p>
+                    <p>When I'm not coding, I'm probably playing games or hanging out on Discord.</p>
+
+                    <div class="stats-row">
+                        <div class="stat">
+                            <h3>1+</h3>
+                            <p>Years Exp.</p>
+                        </div>
+                        <div class="stat">
+                            <h3>20+</h3>
+                            <p>Projects</p>
+                        </div>
+                        <div class="stat">
+                            <h3>100%</h3>
+                            <p>Passion</p>
                         </div>
                     </div>
                 </div>
+            </div>
+        </section>
+    </main>
 
+    <footer class="main-footer">
+        <div class="container footer-content">
+            <div class="footer-logo">BOLT<span>DEV</span></div>
+            <p>&copy; 2026 Bolt Dev. All rights reserved.</p>
+            <div class="social-links">
+                <a href="https://discord.com/users/1181986720221253666" target="_blank"><i class="fab fa-discord"></i></a>
+                <a href="https://github.com/Boltdev3" target="_blank"><i class="fab fa-github"></i></a>
             </div>
-        </div>
-    </header>
-
-    <section id="projects" class="reveal">
-        <div class="container">
-            <div class="section-header">
-                <span class="badge">MY ARSENAL</span>
-                <h2 class="section-title">Featured <span class="gradient-text">Projects</span></h2>
-            </div>
-            <div class="filter-tabs">
-                <button class="tab-btn active" onclick="filterProjects('all')">All Projects</button>
-                <button class="tab-btn" onclick="filterProjects('web')">Web Apps</button>
-            </div>
-            <div class="projects-grid">
-                <div class="project-card web">
-                    <div class="project-img"><div class="project-overlay"><a href="#"><i class="fas fa-link"></i></a></div></div>
-                    <div class="project-content">
-                        <span class="category"></span>
-                        <h3></h3>
-                        <p></p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="about" class="reveal">
-        <div class="container">
-            <div class="about-grid">
-                <div class="about-image">
-                    <div class="image-frame"><div class="placeholder-img"></div></div>
-                </div>
-                <div class="about-info">
-                    <h2 class="section-title">About <span class="gradient-text">Me</span></h2>
-                    <p>Building the future of the web.</p>
-                    <div class="stats-grid">
-                        <div class="stat-item"><h4>1+</h4><p>Years Exp.</p></div>
-                        <div class="stat-item"><h4>20+</h4><p>Projects</p></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-        <footer class="main-footer">
-        <div class="footer-container">
-            <p>&copy; 2026 <span class="gradient-text">Bolt Dev</span>. All rights reserved.</p>
-            <button class="credits-trigger" onclick="toggleCredits()">
-                <i class="fas fa-info-circle"></i> Credits
-            </button>
         </div>
     </footer>
-
-    <div id="credits-modal" class="modal-overlay">
-        <div class="modal-card">
-            <div class="modal-header">
-                <h3>System <span class="gradient-text">Credits</span></h3>
-                <button class="close-modal" onclick="toggleCredits()">&times;</button>
-            </div>
-            <div class="modal-body">
-                <div class="credit-item">
-                    <span>Design & Code</span>
-                    <p>Bolt Dev</p>
-                </div>
-                <div class="credit-item">
-                    <span>Core Framework</span>
-                    <p>HTML5, CSS3, Vanilla JS</p>
-                </div>
-                <div class="credit-item">
-                    <span>Data Systems</span>
-                    <p>Lanyard API & FontAwesome</p>
-                </div>
-            </div>
-        </div>
-    </div>
 
     <script src="js/script.js"></script>
 </body>
