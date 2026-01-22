@@ -215,7 +215,7 @@ body.loading { overflow: hidden; }
     /* Horizontal Layout */
     display: flex;
     align-items: center;
-    gap: 15px;
+    gap: 30px; /* Increased gap for better separation */
 }
 .activity-card:hover {
     transform: translateY(-2px) scale(1.02);
@@ -225,12 +225,12 @@ body.loading { overflow: hidden; }
 }
 
 .activity-label {
-    font-size: 0.75rem; font-weight: 900; letter-spacing: 0.5px;
+    font-size: 0.8rem; font-weight: 900; letter-spacing: 1px;
     color: #ffffff; text-transform: uppercase;
-    display: flex; align-items: center; gap: 8px;
+    display: flex; align-items: center;
     flex-shrink: 0; /* Don't shrink label */
-    margin-bottom: 0; /* Remove bottom margin for flex layout */
-    width: auto; /* Allow natural width */
+    margin-bottom: 0;
+    margin-right: 10px; /* Extra margin for safety */
     opacity: 0.9;
 }
 .activity-content {
