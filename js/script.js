@@ -1,46 +1,48 @@
 const DISCORD_ID = "1181986720221253666";
 
-// --- CUSTOM CURSOR ---
-const dot = document.getElementById('cursor-dot');
-const outline = document.getElementById('cursor-outline');
+/* --- CUSTOM CURSOR --- */
+const cursorDot = document.getElementById('cursor-dot');
+const cursorOutline = document.getElementById('cursor-outline');
 
-window.addEventListener('mousemove', (e) => {
-    const posX = e.clientX;
-    const posY = e.clientY;
+if (window.matchMedia("(pointer: fine)").matches) {
+    window.addEventListener('mousemove', (e) => {
+        const posX = e.clientX;
+        const posY = e.clientY;
 
-    dot.style.left = `${posX}px`;
-    dot.style.top = `${posY}px`;
+        cursorDot.style.left = `${posX}px`;
+        cursorDot.style.top = `${posY}px`;
 
-    outline.animate({
-        left: `${posX}px`,
-        top: `${posY}px`
-    }, { duration: 500, fill: "forwards" });
-});
+        cursorOutline.animate({
+            left: `${posX}px`,
+            top: `${posY}px`
+        }, { duration: 500, fill: "forwards" });
+    });
+}
 
-// --- LOADER LOGIC ---
+/* --- LOADER --- */
 window.addEventListener('load', () => {
     let progress = 0;
-    const bar = document.querySelector('.loader-progress-bar');
+    const bar = document.querySelector('.loader-bar-fill');
     const percentTxt = document.querySelector('.percent');
 
-    const loaderInterval = setInterval(() => {
-        progress += Math.floor(Math.random() * 5) + 1;
-        
-        if (progress >= 100) {
-            progress = 100;
-            clearInterval(loaderInterval);
+    const interval = setInterval(() => {
+        progress += Math.floor(Math.random() * 5) + 2;
+        if (progress > 100) progress = 100;
+
+        if (bar) bar.style.width = `${progress}%`;
+        if (percentTxt) percentTxt.innerText = `${progress}%`;
+
+        if (progress === 100) {
+            clearInterval(interval);
             setTimeout(() => {
                 document.body.classList.add('loaded');
                 document.body.classList.remove('loading');
             }, 500);
         }
-        
-        if(bar) bar.style.width = progress + "%";
-        if(percentTxt) percentTxt.innerText = progress + "%";
-    }, 60);
+    }, 50);
 });
 
-// --- LANYARD API (Discord Presence) ---
+/* --- LANYARD API (Discord Presence) --- */
 async function updatePresence() {
     try {
         const response = await fetch(`https://api.lanyard.rest/v1/users/${DISCORD_ID}`);
@@ -48,106 +50,103 @@ async function updatePresence() {
 
         if (!data) return;
 
-        // User Details
-        document.getElementById('discord-name').innerText = data.discord_user.username;
-        document.getElementById('discord-avatar').src = `https://cdn.discordapp.com/avatars/${DISCORD_ID}/${data.discord_user.avatar}.webp?size=160`;
+        // 1. User Info
+        document.getElementById('discord-username').innerText = data.discord_user.username;
+        document.getElementById('discord-avatar').src = `https://cdn.discordapp.com/avatars/${DISCORD_ID}/${data.discord_user.avatar}.webp?size=128`;
+
+        // 2. Status Indicator
+        const statusEl = document.getElementById('discord-status-indicator');
+        const customStatusEl = document.getElementById('discord-custom-status');
+
+        statusEl.className = ''; // Reset classes
+        statusEl.classList.add(`status-${data.discord_status}`);
+
+        // Custom Status Text
+        const statusMap = {
+            online: "Online",
+            idle: "Idle",
+            dnd: "Do Not Disturb",
+            offline: "Offline"
+        };
         
-        // --- STATUS LOGIC FIX ---
-        const statusEl = document.getElementById('status-indicator');
-        const statusText = document.getElementById('discord-status-text');
-        const currentStatus = data.discord_status; // online, dnd, idle, offline
+        // Prioritize Activity text, then Custom Status, then Basic Status
+        let statusText = statusMap[data.discord_status];
+        const customActivity = data.activities.find(a => a.type === 4);
+        if (customActivity && customActivity.state) {
+            statusText = customActivity.state;
+        }
+        customStatusEl.innerText = statusText;
 
-        // Klassen sauber wechseln
-        statusEl.className = ''; 
-        statusEl.classList.add(`status-${currentStatus}`);
+        // 3. Game Activity (Type 0)
+        const gameActivity = data.activities.find(a => a.type === 0);
+        const gameEl = document.getElementById('game-activity');
 
-        // Texte & Farben je nach Status
-        if(currentStatus === 'dnd') {
-            statusText.innerText = "Do Not Disturb";
-            statusText.style.color = "#f04747";
-        } else if(currentStatus === 'idle') {
-            statusText.innerText = "IDLE / AWAY";
-            statusText.style.color = "#faa61a";
-        } else if(currentStatus === 'online') {
-            statusText.innerText = "ONLINE";
-            statusText.style.color = "#43b581";
+        if (gameActivity) {
+            gameEl.style.display = 'flex';
+            document.getElementById('game-name').innerText = gameActivity.name;
+            document.getElementById('game-details').innerText = gameActivity.details || "Playing";
+            document.getElementById('game-state').innerText = gameActivity.state || "";
+
+            // Image Logic
+            const gameImg = document.getElementById('game-image');
+            if (gameActivity.assets && gameActivity.assets.large_image) {
+                let imgUrl = gameActivity.assets.large_image;
+                if (imgUrl.startsWith("mp:external")) {
+                    imgUrl = imgUrl.replace(/mp:external\/([^\/]*)\/(https?:\/\/.*)/, '$2');
+                } else if (!imgUrl.startsWith("http")) {
+                     imgUrl = `https://cdn.discordapp.com/app-assets/${gameActivity.application_id}/${gameActivity.assets.large_image}.png`;
+                }
+                gameImg.src = imgUrl;
+            } else {
+                gameImg.src = "https://cdn.discordapp.com/embed/avatars/0.png"; // Fallback
+            }
+
+            // Time Elapsed
+            if (gameActivity.timestamps && gameActivity.timestamps.start) {
+                const elapsed = Date.now() - gameActivity.timestamps.start;
+                const hours = Math.floor(elapsed / 3600000);
+                const minutes = Math.floor((elapsed % 3600000) / 60000);
+                document.getElementById('game-time').innerText = `${hours > 0 ? hours + 'h ' : ''}${minutes}m elapsed`;
+            } else {
+                document.getElementById('game-time').innerText = "";
+            }
+
         } else {
-            statusText.innerText = "OFFLINE";
-            statusText.style.color = "#747f8d";
+            gameEl.style.display = 'none';
         }
 
-        // Spotify
-        const spotWidget = document.getElementById('spotify-widget');
+        // 4. Spotify Activity
+        const spotifyEl = document.getElementById('spotify-activity');
         if (data.listening_to_spotify) {
-            spotWidget.style.opacity = "1";
+            spotifyEl.style.display = 'flex';
             document.getElementById('spotify-song').innerText = data.spotify.song;
+            document.getElementById('spotify-artist').innerText = data.spotify.artist.replace(/;/g, ",");
+            document.getElementById('spotify-art').src = data.spotify.album_art_url;
             
             const total = data.spotify.timestamps.end - data.spotify.timestamps.start;
             const current = Date.now() - data.spotify.timestamps.start;
-            const progress = Math.min(100, (current / total) * 100);
-            document.getElementById('spotify-bar').style.width = progress + "%";
+            const percentage = (current / total) * 100;
+            document.getElementById('spotify-progress').style.width = `${Math.min(100, percentage)}%`;
         } else {
-            spotWidget.style.opacity = "0.5";
-            document.getElementById('spotify-song').innerText = "Not listening to anything";
-            document.getElementById('spotify-bar').style.width = "0%";
+            spotifyEl.style.display = 'none';
         }
-    } catch (err) {
-        console.error("Presence Error:", err);
+
+    } catch (error) {
+        console.error("Lanyard Error:", error);
     }
 }
 
-setInterval(updatePresence, 2000);
+// Update every second for time/progress
+setInterval(updatePresence, 1000);
 updatePresence();
 
-// --- PROJECT FILTERING ---
-function filterProjects(category) {
-    const cards = document.querySelectorAll('.project-card');
-    const buttons = document.querySelectorAll('.tab-btn');
-
-    // Update Buttons
-    buttons.forEach(btn => btn.classList.remove('active'));
-    if(event) event.target.classList.add('active');
-
-    // Filter Cards
-    cards.forEach(card => {
-        card.style.opacity = '0';
-        card.style.transform = 'scale(0.9)';
-        
-        setTimeout(() => {
-            if (category === 'all' || card.classList.contains(category)) {
-                card.style.display = 'block';
-                setTimeout(() => {
-                    card.style.opacity = '1';
-                    card.style.transform = 'scale(1)';
-                }, 50);
-            } else {
-                card.style.display = 'none';
-            }
-        }, 300);
-    });
-}
-
-// --- SCROLL REVEAL OBSERVER ---
-const observerOptions = { threshold: 0.1 };
+/* --- SCROLL REVEAL --- */
 const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
         if (entry.isIntersecting) {
             entry.target.classList.add('active');
         }
     });
-}, observerOptions);
+}, { threshold: 0.1 });
 
 document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
-
-// --- CREDITS MODAL ---
-function toggleCredits() {
-    const modal = document.getElementById('credits-modal');
-    if(modal) modal.classList.toggle('active');
-}
-
-window.onclick = function(event) {
-    const modal = document.getElementById('credits-modal');
-    if (event.target == modal) {
-        modal.classList.remove('active');
-    }
-}
