@@ -54,6 +54,42 @@ async function updatePresence() {
         document.getElementById('discord-username').innerText = data.discord_user.username;
         document.getElementById('discord-avatar').src = `https://cdn.discordapp.com/avatars/${DISCORD_ID}/${data.discord_user.avatar}.webp?size=128`;
 
+        // 1.5 Badges
+        const flags = data.discord_user.public_flags || 0;
+        const badgesContainer = document.getElementById('discord-badges');
+        badgesContainer.innerHTML = ''; // Clear existing
+
+        // Badge Logic (Bitwise) with FontAwesome Icons
+        const badges = [
+            { name: 'HypeSquad Bravery', val: 64, icon: '<i class="fas fa-shield-alt" style="color: #9c84ef;"></i>' },
+            { name: 'HypeSquad Brilliance', val: 128, icon: '<i class="fas fa-shield-alt" style="color: #f47fff;"></i>' },
+            { name: 'HypeSquad Balance', val: 256, icon: '<i class="fas fa-shield-alt" style="color: #1abc9c;"></i>' },
+            { name: 'Bug Hunter I', val: 8, icon: '<i class="fas fa-bug" style="color: #43b581;"></i>' },
+            { name: 'Bug Hunter II', val: 16384, icon: '<i class="fas fa-bug" style="color: #faa61a;"></i>' },
+            { name: 'Developer', val: 131072, icon: '<i class="fas fa-code" style="color: #fff;"></i>' },
+            { name: 'Active Developer', val: 4194304, icon: '<i class="fas fa-hammer" style="color: #fff;"></i>' },
+            { name: 'Early Supporter', val: 512, icon: '<i class="fas fa-gem" style="color: #7289da;"></i>' }
+        ];
+
+        badges.forEach(badge => {
+            if ((flags & badge.val) === badge.val) {
+                const div = document.createElement('div');
+                div.className = 'badge-icon';
+                div.innerHTML = badge.icon;
+                div.title = badge.name;
+                badgesContainer.appendChild(div);
+            }
+        });
+
+        // Nitro check (approximate)
+        if (data.discord_user.avatar && data.discord_user.avatar.startsWith('a_')) {
+             const div = document.createElement('div');
+             div.className = 'badge-icon';
+             div.innerHTML = '<i class="fas fa-bolt" style="color: #f47fff;"></i>';
+             div.title = "Nitro";
+             badgesContainer.appendChild(div);
+        }
+
         // 2. Status Indicator
         const statusEl = document.getElementById('discord-status-indicator');
         const customStatusEl = document.getElementById('discord-custom-status');
@@ -68,7 +104,7 @@ async function updatePresence() {
             dnd: "Do Not Disturb",
             offline: "Offline"
         };
-        
+
         // Prioritize Activity text, then Custom Status, then Basic Status
         let statusText = statusMap[data.discord_status];
         const customActivity = data.activities.find(a => a.type === 4);
