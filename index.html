@@ -34,6 +34,61 @@
     <div class="bg-glow"></div>
     <div class="grid-overlay"></div>
 
+    <!-- SETTINGS BUTTON -->
+    <div id="settings-btn" class="settings-float">
+        <i class="fas fa-cog"></i>
+    </div>
+
+    <!-- SETTINGS MODAL -->
+    <div id="settings-modal" class="modal-overlay">
+        <div class="modal-content glass-card">
+            <div class="modal-header">
+                <h2>Settings</h2>
+                <button id="close-settings" class="close-btn"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="modal-body">
+                <div class="setting-group">
+                    <h3>Theme Color</h3>
+                    <div class="color-picker">
+                        <div class="color-option" data-color="purple" style="--opt-color: #a855f7;"></div>
+                        <div class="color-option" data-color="blue" style="--opt-color: #3b82f6;"></div>
+                        <div class="color-option" data-color="green" style="--opt-color: #10b981;"></div>
+                        <div class="color-option" data-color="orange" style="--opt-color: #f97316;"></div>
+                    </div>
+                </div>
+                <div class="setting-group">
+                    <h3>Language</h3>
+                    <div class="lang-toggle">
+                        <button class="lang-btn active" data-lang="en">EN</button>
+                        <button class="lang-btn" data-lang="de">DE</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- TERMINAL OVERLAY -->
+    <div id="terminal-overlay" class="terminal-overlay">
+        <div class="terminal-window">
+            <div class="terminal-header">
+                <span class="term-dot red"></span>
+                <span class="term-dot yellow"></span>
+                <span class="term-dot green"></span>
+                <span class="term-title">bolt_dev@system:~</span>
+            </div>
+            <div class="terminal-body" id="terminal-output">
+                <div class="term-line">Welcome to Bolt Dev Terminal v1.0.0</div>
+                <div class="term-line">Type 'help' for a list of commands.</div>
+                <div class="term-line"><br></div>
+            </div>
+            <div class="terminal-input-line">
+                <span class="term-prompt">user@bolt:~$</span>
+                <input type="text" id="terminal-input" autocomplete="off" spellcheck="false">
+            </div>
+        </div>
+        <div class="crt-scanline"></div>
+    </div>
+
     <!-- NAVIGATION -->
     <nav class="glass-nav">
         <div class="nav-container">
@@ -251,6 +306,62 @@
                 </div>
             </div>
         </section>
+
+        <!-- LATEST UPDATES (BLOG) -->
+        <section id="updates" class="updates-section reveal">
+            <div class="container">
+                <div class="section-header center">
+                    <span class="badge">DEV LOG</span>
+                    <h2>Latest <span class="gradient-text">Updates</span></h2>
+                </div>
+                <div class="updates-grid" id="updates-grid">
+                    <!-- Dynamic Content -->
+                </div>
+            </div>
+        </section>
+
+        <!-- CONTACT SECTION -->
+        <section id="contact" class="contact-section reveal">
+            <div class="container contact-container">
+                <div class="section-header">
+                    <span class="badge">GET IN TOUCH</span>
+                    <h2>Let's <span class="gradient-text">Talk</span></h2>
+                </div>
+                <div class="contact-wrapper">
+                    <form id="contact-form" class="glass-form">
+                        <div class="form-group">
+                            <label for="name">Name</label>
+                            <input type="text" id="name" required placeholder="John Doe">
+                        </div>
+                        <div class="form-group">
+                            <label for="discord">Discord Tag</label>
+                            <input type="text" id="discord" required placeholder="user#0000">
+                        </div>
+                        <div class="form-group">
+                            <label for="message">Message</label>
+                            <textarea id="message" rows="5" required placeholder="Hey, I have a project idea..."></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Send Message <i class="fas fa-paper-plane"></i></button>
+                    </form>
+                    <div class="contact-info">
+                        <div class="info-item">
+                            <i class="fab fa-discord"></i>
+                            <div>
+                                <h4>Discord</h4>
+                                <p>bolt_dev</p>
+                            </div>
+                        </div>
+                        <div class="info-item">
+                            <i class="fas fa-envelope"></i>
+                            <div>
+                                <h4>Email</h4>
+                                <p>contact@boltdev.com</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
     </main>
 
     <footer class="main-footer">
@@ -264,6 +375,8 @@
         </div>
     </footer>
 
+    <script src="js/lang.js"></script>
+    <script src="js/features.js"></script>
     <script src="js/script.js"></script>
 </body>
 </html>
