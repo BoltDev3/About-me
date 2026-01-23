@@ -57,7 +57,8 @@ const featureSystem = {
         `).join('');
     },
 
-    // --- CONTACT MODULE ---
+    // --- CONTACT MODULE (GitHub Pages Safe) ---
+// --- CONTACT MODULE (MIT COOLDOWN & GITHUB PAGES SAFE) ---
     initContact: () => {
         const form = document.getElementById('contact-form');
         if (!form) return;
@@ -66,24 +67,101 @@ const featureSystem = {
             e.preventDefault();
             const btn = form.querySelector('button');
             const originalText = btn.innerHTML;
+            
+            // --- COOLDOWN LOGIK START ---
+            const COOLDOWN_TIME = 600 * 1000; // 60 Sekunden in Millisekunden
+            const lastSent = localStorage.getItem('lastContactTime');
+            const now = Date.now();
 
-            // Simulation
-            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
-
-            setTimeout(() => {
-                btn.innerHTML = '<i class="fas fa-check"></i> Sent!';
-                btn.style.background = '#10b981';
-                form.reset();
-
+            if (lastSent && (now - parseInt(lastSent) < COOLDOWN_TIME)) {
+                // Berechne verbleibende Zeit
+                const remaining = Math.ceil((COOLDOWN_TIME - (now - parseInt(lastSent))) / 1000);
+                
+                // Visuelles Feedback auf dem Button
+                btn.style.background = '#f97316'; // Orange als Warnung
+                btn.innerHTML = `<i class="fas fa-hourglass-half"></i> Wait ${remaining}s`;
+                
+                // Nach 3 Sekunden Text zurücksetzen
                 setTimeout(() => {
                     btn.innerHTML = originalText;
                     btn.style.background = '';
                 }, 3000);
-            }, 1500);
+                
+                return; // Stoppt hier, sendet NICHTS an Discord
+            }
+            // --- COOLDOWN LOGIK ENDE ---
+            const Url = "aHR0cHM6Ly9wdGIuZGlzY29yZC5jb20vYXBpL3dlYmhvb2tzLzE0NjQzMDYwMzYxNDI5MDM1NDkvV0FZenRoYnU0SWhlLWx6MTE2U0RNTERkbk9MUXpFWjNPSVUxQVpzeXVjTmIwSGt4WG0zZmdmaG5SUG5XTWRJeHpQSWc="; 
 
-            // Here you would normally fetch() to a Discord Webhook
-            // const webhookURL = 'YOUR_WEBHOOK_URL';
-            // ...
+            // Daten sammeln
+            const formData = new FormData(form);
+            const name = formData.get('name') || document.getElementById('name')?.value || 'Anonymous';
+            const email = formData.get('email') || document.getElementById('email')?.value || 'No Email';
+            const message = formData.get('message') || document.getElementById('message')?.value || 'No Content';
+
+            // Button Loading State
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
+            btn.disabled = true;
+
+            try {
+                const webhookURL = atob(Url);
+
+                if (!webhookURL.includes('http')) throw new Error('Invalid Webhook URL');
+
+                const payload = {
+                    username: "Portfolio Bot",
+                    avatar_url: "https://i.imgur.com/4M34hi2.png",
+                    embeds: [{
+                        title: "📬 Neue Nachricht",
+                        color: 9712639,
+                        fields: [
+                            { name: "👤 Name", value: name, inline: true },
+                            { name: "📧 Email", value: email, inline: true },
+                            { name: "📝 Nachricht", value: message }
+                        ],
+                        footer: { text: "Sent via GitHub Pages Portfolio" },
+                        timestamp: new Date().toISOString()
+                    }]
+                };
+
+                fetch(webhookURL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                })
+                .then(res => {
+                    if (res.ok) {
+                        // --- ZEITSTEMPEL SPEICHERN ---
+                        localStorage.setItem('lastContactTime', Date.now().toString());
+                        // -----------------------------
+
+                        btn.innerHTML = '<i class="fas fa-check"></i> Sent!';
+                        btn.style.background = '#10b981';
+                        form.reset();
+                    } else {
+                        throw new Error('Discord rejected request');
+                    }
+                })
+                .catch(err => {
+                    console.error("Sending Error:", err);
+                    btn.innerHTML = '<i class="fas fa-times"></i> Error';
+                    btn.style.background = '#ef4444';
+                })
+                .finally(() => {
+                    setTimeout(() => {
+                        btn.innerHTML = originalText;
+                        btn.style.background = '';
+                        btn.disabled = false;
+                    }, 3000);
+                });
+
+            } catch (err) {
+                console.error("Config Error:", err);
+                btn.innerHTML = 'Config Error';
+                setTimeout(() => {
+                    btn.innerHTML = originalText;
+                    btn.disabled = false;
+                }, 3000);
+            }
         });
     },
 
@@ -166,7 +244,8 @@ const featureSystem = {
     },
 
     applyLanguage: (lang) => {
-        if (!translations[lang]) return;
+        // Hinweis: 'translations' muss in einer anderen Datei (z.B. translations.js) definiert sein
+        if (typeof translations === 'undefined' || !translations[lang]) return;
         const t = translations[lang];
 
         const setTxt = (sel, txt) => {
@@ -321,16 +400,7 @@ const featureSystem = {
     },
 
     startMatrixEffect: () => {
-        // Simple matrix raining code effect on the canvas
-        const canvas = document.getElementById('bg-canvas');
-        const ctx = canvas.getContext('2d');
-
-        // Temporarily override particle system
-        // (For a full implementation, we'd need to coordinate with script.js, but let's do a simple overlay here)
-        // Since script.js runs its loop, we might fight for context.
-        // Instead, let's just log it or do a simple alert for now as "Simulation".
-        // Or better, change the background color.
-
+        // Simple matrix raining code effect (Simulation)
         document.body.style.setProperty('--bg-dark', '#000');
         document.documentElement.style.setProperty('--primary', '#00ff00');
         document.documentElement.style.setProperty('--text-main', '#00ff00');
