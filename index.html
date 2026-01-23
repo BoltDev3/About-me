@@ -12,12 +12,16 @@
 </head>
 <body class="loading">
 
-    <!-- LOADER -->
+    <!-- CINEMATIC LOADER -->
     <div id="loader-wrapper">
+        <div class="curtain curtain-top"></div>
+        <div class="curtain curtain-bottom"></div>
         <div class="loader-content">
-            <div class="loader-logo">BOLT<span>DEV</span></div>
-            <div class="loader-bar-bg"><div class="loader-bar-fill"></div></div>
-            <div class="loader-text">SYSTEM INITIALIZATION <span class="percent">0%</span></div>
+            <h1 class="loader-title glitch" data-text="BOLT DEV">BOLT DEV</h1>
+            <div class="loader-progress-bg">
+                <div class="loader-progress-bar"></div>
+            </div>
+            <div class="loader-status">INITIALIZING SYSTEM...</div>
         </div>
     </div>
 
@@ -26,6 +30,7 @@
     <div id="cursor-outline"></div>
 
     <!-- BACKGROUND -->
+    <canvas id="bg-canvas"></canvas>
     <div class="bg-glow"></div>
     <div class="grid-overlay"></div>
 
