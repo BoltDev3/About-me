@@ -186,3 +186,53 @@ const observer = new IntersectionObserver((entries) => {
 }, { threshold: 0.1 });
 
 document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+/* --- 3D TILT EFFECT --- */
+function initTilt(selector, maxTilt = 10) {
+    const elements = document.querySelectorAll(selector);
+
+    elements.forEach(el => {
+        el.addEventListener('mousemove', (e) => {
+            const rect = el.getBoundingClientRect();
+            const x = e.clientX - rect.left; // x position within the element.
+            const y = e.clientY - rect.top;  // y position within the element.
+
+            const xCenter = rect.width / 2;
+            const yCenter = rect.height / 2;
+
+            // Calculate rotation:
+            // If mouse is left of center (x < xCenter), rotate Y negative? No, Y positive creates left-down look.
+            // Let's standard: mouse left -> rotateY negative. mouse right -> rotateY positive.
+            // mouse top -> rotateX positive. mouse bottom -> rotateX negative.
+
+            const rotateX = ((y - yCenter) / yCenter) * -maxTilt; // Invert for natural tilt
+            const rotateY = ((x - xCenter) / xCenter) * maxTilt;
+
+            el.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.02)`;
+        });
+
+        el.addEventListener('mouseleave', () => {
+            el.style.transform = `perspective(1000px) rotateX(0deg) rotateY(0deg) scale(1)`;
+        });
+    });
+}
+
+// Initialize Tilt on Cards
+if (window.matchMedia("(pointer: fine)").matches) {
+    initTilt('.discord-card', 5);
+    initTilt('.project-card', 8);
+    initTilt('.stack-item', 15);
+}
+
+/* --- TYPING EFFECT --- */
+const textToType = "Digital";
+const typeTarget = document.querySelector('.gradient-text');
+// Only run if element exists and not already animated
+if (typeTarget && !typeTarget.classList.contains('typing-done')) {
+    // Wait for initial fade in
+    setTimeout(() => {
+        // Simple blinking cursor effect handled in CSS mostly,
+        // but if we want to re-type it:
+        // Actually, let's leave the CSS animation for gradient and just add a class for cursor.
+    }, 2000);
+}
