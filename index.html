@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BOLT DEV | Full Stack Developer</title>
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/admin.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="icon" type="image/png" href="BOLT DEV (1).png">
@@ -14,6 +15,41 @@
 
     <!-- SCROLL PROGRESS -->
     <div id="scroll-progress"></div>
+
+    <!-- ADMIN PANEL -->
+    <div id="admin-panel">
+        <div class="admin-sidebar">
+            <div class="admin-sidebar-header">BOLT DEV SERVER</div>
+            <div class="channel-item active" data-tab="inbox">
+                <span class="channel-icon">#</span> inbox
+            </div>
+            <div class="channel-item" data-tab="banned">
+                <span class="channel-icon">#</span> bans
+            </div>
+        </div>
+        <div class="admin-main">
+            <div class="admin-topbar">
+                <span class="hashtag">#</span> inbox
+            </div>
+            <div class="message-list" id="admin-msg-list">
+                <!-- Dynamic Messages -->
+            </div>
+        </div>
+    </div>
+
+    <!-- TIMEOUT MODAL -->
+    <div id="timeout-modal" class="timeout-modal">
+        <div class="timeout-box">
+            <div class="timeout-header">Timeout User</div>
+            <div class="timeout-options">
+                <div class="timeout-opt" data-time="10">10 Minutes</div>
+                <div class="timeout-opt" data-time="60">1 Hour</div>
+                <div class="timeout-opt" data-time="1440">1 Day</div>
+            </div>
+            <button id="confirm-timeout" class="timeout-confirm">Confirm Timeout</button>
+            <button id="cancel-timeout" class="timeout-cancel">Cancel</button>
+        </div>
+    </div>
 
     <!-- CINEMATIC LOADER -->
     <div id="loader-wrapper">
@@ -382,5 +418,7 @@
     <script src="js/features.js"></script>
     <script src="js/script.js"></script>
     <script src="js/scroll.js"></script>
+    <script src="js/contact-system.js"></script>
+    <script src="js/admin-ui.js"></script>
 </body>
 </html>

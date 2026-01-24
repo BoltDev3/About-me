@@ -67,23 +67,39 @@ const featureSystem = {
             const btn = form.querySelector('button');
             const originalText = btn.innerHTML;
 
-            // Simulation
+            // 1. Get Data
+            const name = document.getElementById('name').value;
+            const discord = document.getElementById('discord').value;
+            const msg = document.getElementById('message').value;
+
+            // 2. Mock Backend Handling
+            if (window.contactSystem) {
+                const result = window.contactSystem.submitMessage(name, discord, msg);
+
+                if (!result.success) {
+                    alert(result.error); // Show Timeout Error
+                    return;
+                }
+            }
+
+            // 3. UI Feedback
             btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
+            btn.disabled = true;
 
             setTimeout(() => {
                 btn.innerHTML = '<i class="fas fa-check"></i> Sent!';
                 btn.style.background = '#10b981';
                 form.reset();
 
+                // Refresh Admin Panel if open
+                if (typeof renderMessages === 'function') renderMessages();
+
                 setTimeout(() => {
                     btn.innerHTML = originalText;
                     btn.style.background = '';
+                    btn.disabled = false;
                 }, 3000);
-            }, 1500);
-
-            // Here you would normally fetch() to a Discord Webhook
-            // const webhookURL = 'YOUR_WEBHOOK_URL';
-            // ...
+            }, 1000);
         });
     },
 
@@ -267,6 +283,17 @@ const featureSystem = {
 
         if (cmd === 'exit') {
             featureSystem.toggleTerminal();
+            return;
+        }
+
+        if (cmd === 'admin' || cmd === 'login admin') {
+            if (typeof openAdminPanel === 'function') {
+                openAdminPanel();
+                output.innerHTML += `<div class="term-line text-success">Access granted. Welcome, Administrator.</div>`;
+            } else {
+                output.innerHTML += `<div class="term-line text-error">Admin module not loaded.</div>`;
+            }
+            output.scrollTop = output.scrollHeight;
             return;
         }
 
