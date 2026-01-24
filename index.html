@@ -12,6 +12,9 @@
 </head>
 <body class="loading">
 
+    <!-- SCROLL PROGRESS -->
+    <div id="scroll-progress"></div>
+
     <!-- CINEMATIC LOADER -->
     <div id="loader-wrapper">
         <div class="curtain curtain-top"></div>
@@ -177,13 +180,13 @@
         </section>
 
         <!-- TECH STACK SECTION -->
-        <section id="stack" class="stack-section reveal">
+        <section id="stack" class="stack-section">
             <div class="container">
-                <div class="section-header center">
+                <div class="section-header center scroll-hidden" data-anim="scale">
                     <span class="badge">MY TOOLKIT</span>
                     <h2>Technologies <span class="gradient-text">I Use</span></h2>
                 </div>
-                <div class="stack-grid">
+                <div class="stack-grid stagger-grid">
                     <div class="stack-item"><i class="fab fa-html5"></i><span>HTML5</span></div>
                     <div class="stack-item"><i class="fab fa-css3-alt"></i><span>CSS3</span></div>
                     <div class="stack-item"><i class="fab fa-js"></i><span>JavaScript</span></div>
@@ -197,14 +200,14 @@
         </section>
 
         <!-- PROJECTS SECTION -->
-        <section id="projects" class="projects-section reveal">
+        <section id="projects" class="projects-section">
             <div class="container">
-                <div class="section-header">
+                <div class="section-header scroll-hidden" data-anim="left">
                     <span class="badge">PORTFOLIO</span>
                     <h2>Featured <span class="gradient-text">Projects</span></h2>
                 </div>
 
-                <div class="projects-grid">
+                <div class="projects-grid stagger-grid">
                     <!-- Project 1 -->
                     <article class="project-card">
                         <div class="project-image">
@@ -268,9 +271,9 @@
         </section>
 
         <!-- ABOUT SECTION -->
-        <section id="about" class="about-section reveal">
+        <section id="about" class="about-section">
             <div class="container about-container">
-                <div class="about-visual">
+                <div class="about-visual scroll-hidden" data-anim="scale">
                     <!-- 3D CUBE ANIMATION -->
                     <div class="cube-container">
                         <div class="cube">
@@ -283,7 +286,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="about-content">
+                <div class="about-content scroll-hidden" data-anim="right">
                     <span class="badge">WHO AM I?</span>
                     <h2>About <span class="gradient-text">Me</span></h2>
                     <p>I am a 13-year-old developer from Germany. I started coding when I was 12 and fell in love with creating things for the web. My main focus is on Discord Bots and Websites.</p>
@@ -308,26 +311,26 @@
         </section>
 
         <!-- LATEST UPDATES (BLOG) -->
-        <section id="updates" class="updates-section reveal">
+        <section id="updates" class="updates-section">
             <div class="container">
-                <div class="section-header center">
+                <div class="section-header center scroll-hidden" data-anim="blur">
                     <span class="badge">DEV LOG</span>
                     <h2>Latest <span class="gradient-text">Updates</span></h2>
                 </div>
-                <div class="updates-grid" id="updates-grid">
+                <div class="updates-grid stagger-grid" id="updates-grid">
                     <!-- Dynamic Content -->
                 </div>
             </div>
         </section>
 
         <!-- CONTACT SECTION -->
-        <section id="contact" class="contact-section reveal">
+        <section id="contact" class="contact-section">
             <div class="container contact-container">
-                <div class="section-header">
+                <div class="section-header scroll-hidden">
                     <span class="badge">GET IN TOUCH</span>
                     <h2>Let's <span class="gradient-text">Talk</span></h2>
                 </div>
-                <div class="contact-wrapper">
+                <div class="contact-wrapper scroll-hidden" data-anim="scale">
                     <form id="contact-form" class="glass-form">
                         <div class="form-group">
                             <label for="name">Name</label>
@@ -378,5 +381,6 @@
     <script src="js/lang.js"></script>
     <script src="js/features.js"></script>
     <script src="js/script.js"></script>
+    <script src="js/scroll.js"></script>
 </body>
 </html>
