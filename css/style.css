@@ -871,3 +871,82 @@ section { padding: 100px 0; }
 @media (max-width: 768px) {
     .contact-wrapper { grid-template-columns: 1fr; }
 }
+
+/* --- ADVANCED SCROLL ANIMATIONS --- */
+
+/* Scroll Progress Bar */
+#scroll-progress {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 0%;
+    height: 3px;
+    background: linear-gradient(90deg, var(--primary), var(--secondary));
+    z-index: 10001; /* Above Nav */
+    box-shadow: 0 0 10px var(--primary);
+    transition: width 0.1s linear;
+}
+
+/* Base Scroll State */
+.scroll-hidden {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    will-change: transform, opacity;
+}
+
+/* Stagger Delay Support */
+.scroll-hidden {
+    transition-delay: var(--delay, 0ms);
+}
+
+/* Active State */
+.scroll-in {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Animation Variants */
+
+/* Scale Up */
+.scroll-hidden[data-anim="scale"] {
+    transform: scale(0.8);
+}
+.scroll-in[data-anim="scale"] {
+    transform: scale(1);
+}
+
+/* Fade Left */
+.scroll-hidden[data-anim="left"] {
+    transform: translateX(-50px);
+}
+.scroll-in[data-anim="left"] {
+    transform: translateX(0);
+}
+
+/* Fade Right */
+.scroll-hidden[data-anim="right"] {
+    transform: translateX(50px);
+}
+.scroll-in[data-anim="right"] {
+    transform: translateX(0);
+}
+
+/* Blur In */
+.scroll-hidden[data-anim="blur"] {
+    transform: scale(1.1);
+    filter: blur(10px);
+}
+.scroll-in[data-anim="blur"] {
+    transform: scale(1);
+    filter: blur(0);
+}
+
+/* Grid Item Override (if needed) */
+.stagger-grid > .scroll-hidden {
+    /* Ensure they start with the default fade-up unless overridden */
+    transform: translateY(30px);
+}
+.stagger-grid > .scroll-in {
+    transform: translateY(0);
+}

@@ -199,16 +199,6 @@ async function updatePresence() {
 setInterval(updatePresence, 1000);
 updatePresence();
 
-/* --- SCROLL REVEAL --- */
-const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-        if (entry.isIntersecting) {
-            entry.target.classList.add('active');
-        }
-    });
-}, { threshold: 0.1 });
-
-document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
 /* --- 3D TILT EFFECT --- */
 function initTilt(selector, maxTilt = 10) {
