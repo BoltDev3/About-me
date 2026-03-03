@@ -85,6 +85,7 @@ const featureSystem = {
                 setTimeout(() => {
                     btn.innerHTML = originalText;
                     btn.style.background = '';
+                    btn.disabled = false;
                 }, 3000);
                 
                 return; // Stoppt hier, sendet NICHTS an Discord
@@ -346,6 +347,17 @@ const featureSystem = {
 
         if (cmd === 'exit') {
             featureSystem.toggleTerminal();
+            return;
+        }
+
+        if (cmd === 'admin' || cmd === 'login admin') {
+            if (typeof openAdminPanel === 'function') {
+                openAdminPanel();
+                output.innerHTML += `<div class="term-line text-success">Access granted. Welcome, Administrator.</div>`;
+            } else {
+                output.innerHTML += `<div class="term-line text-error">Admin module not loaded.</div>`;
+            }
+            output.scrollTop = output.scrollHeight;
             return;
         }
 

@@ -1,0 +1,128 @@
+/* --- ADMIN DASHBOARD (Discord Style) --- */
+#admin-panel {
+    display: none; /* Hidden by default */
+    position: fixed; inset: 0;
+    z-index: 5000;
+    background: #36393f; /* Discord Dark */
+    font-family: 'gg sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    color: #dcddde;
+    display: flex;
+    overflow: hidden;
+    opacity: 0; pointer-events: none; transition: opacity 0.3s;
+}
+
+#admin-panel.active {
+    opacity: 1; pointer-events: auto;
+    display: flex; /* Override display none via class logic if needed, but flex is key */
+}
+
+/* Sidebar */
+.admin-sidebar {
+    width: 240px; background: #2f3136;
+    display: flex; flex-direction: column;
+    padding: 10px;
+}
+.admin-sidebar-header {
+    padding: 0 10px 10px 10px; margin-bottom: 10px;
+    border-bottom: 1px solid #202225;
+    font-weight: 700; color: white;
+}
+.channel-item {
+    display: flex; align-items: center; gap: 8px;
+    padding: 8px 10px; border-radius: 4px;
+    color: #8e9297; cursor: pointer; transition: 0.2s;
+    margin-bottom: 2px;
+}
+.channel-item:hover { background: #34373c; color: #dcddde; }
+.channel-item.active { background: #393c43; color: white; }
+.channel-icon { font-size: 1.2rem; }
+
+/* Main Content */
+.admin-main {
+    flex-grow: 1; background: #36393f;
+    display: flex; flex-direction: column;
+}
+.admin-topbar {
+    height: 48px; border-bottom: 1px solid #26272d;
+    display: flex; align-items: center; padding: 0 16px;
+    font-weight: 700; color: white;
+    box-shadow: 0 1px 0 rgba(4,4,5,0.02),0 1.5px 0 rgba(6,6,7,0.05),0 2px 0 rgba(4,4,5,0.05);
+}
+.hashtag { color: #8e9297; margin-right: 8px; font-size: 1.5rem; }
+
+.message-list {
+    flex-grow: 1; overflow-y: auto; padding: 20px 0;
+}
+.discord-msg {
+    padding: 10px 16px; margin-bottom: 15px;
+    position: relative;
+    display: flex; gap: 16px;
+}
+.discord-msg:hover { background: #32353b; }
+
+.msg-avatar {
+    width: 40px; height: 40px; border-radius: 50%;
+    background: #5865F2; flex-shrink: 0; overflow: hidden;
+    display: flex; align-items: center; justify-content: center;
+}
+.msg-avatar img { width: 100%; height: 100%; object-fit: cover; }
+.msg-avatar i { color: white; font-size: 1.2rem; }
+
+.msg-content { flex-grow: 1; }
+.msg-header { display: flex; align-items: baseline; gap: 8px; margin-bottom: 4px; }
+.msg-username { color: white; font-weight: 500; font-size: 1rem; }
+.msg-timestamp { color: #72767d; font-size: 0.75rem; }
+.msg-body { color: #dcddde; font-size: 0.95rem; white-space: pre-wrap; }
+
+/* Action Toolbar (Hovers like discord) */
+.msg-actions {
+    position: absolute; top: -10px; right: 16px;
+    background: #36393f; border: 1px solid #26272d;
+    border-radius: 4px; display: flex;
+    opacity: 0; transition: 0.2s;
+    box-shadow: 0 4px 4px rgba(0,0,0,0.16);
+}
+.discord-msg:hover .msg-actions { opacity: 1; top: -10px; }
+
+.action-btn {
+    width: 32px; height: 32px;
+    display: flex; align-items: center; justify-content: center;
+    color: #b9bbbe; cursor: pointer; transition: 0.2s;
+}
+.action-btn:hover { background: #40444b; }
+.action-btn.approve:hover { color: #43b581; }
+.action-btn.deny:hover { color: #f04747; }
+.action-btn.timeout:hover { color: #faa61a; }
+
+/* Timeout Modal */
+.timeout-modal {
+    position: fixed; inset: 0; z-index: 6000;
+    background: rgba(0,0,0,0.85);
+    display: flex; align-items: center; justify-content: center;
+    opacity: 0; pointer-events: none; transition: 0.2s;
+}
+.timeout-modal.active { opacity: 1; pointer-events: auto; }
+
+.timeout-box {
+    background: #36393f; padding: 20px; border-radius: 8px; width: 300px;
+    box-shadow: 0 0 0 1px #202225, 0 8px 16px rgba(0,0,0,0.24);
+}
+.timeout-header { color: white; font-weight: 700; margin-bottom: 15px; }
+.timeout-options { display: flex; flex-direction: column; gap: 8px; }
+.timeout-opt {
+    padding: 10px; background: #2f3136; color: #dcddde;
+    border: 1px solid transparent; border-radius: 4px; cursor: pointer;
+}
+.timeout-opt:hover { background: #40444b; }
+.timeout-opt.selected { border-color: #5865F2; }
+
+.timeout-confirm {
+    margin-top: 15px; width: 100%; padding: 10px;
+    background: #f04747; color: white; border: none; border-radius: 4px;
+    cursor: pointer; font-weight: 600;
+}
+.timeout-confirm:hover { background: #d01e1e; }
+.timeout-cancel {
+    margin-top: 8px; width: 100%; padding: 10px; background: transparent;
+    color: white; border: none; cursor: pointer;
+}
