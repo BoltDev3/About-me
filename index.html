@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Work in Progress | About Me</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700&display=swap');
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', sans-serif;
+            /* Darker professional blue theme */
+            background: linear-gradient(135deg, #020617, #0a1435, #0f172a);
+            color: #ffffff;
+            overflow-x: hidden;
+        }
+
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 2rem;
+            box-sizing: border-box;
+        }
+
+        .glass-card {
+            max-width: 600px;
+            padding: 3rem 2rem;
+            /* Glassmorphism effect */
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .hero-anim {
+            animation: fadeIn 1.5s ease-out;
+        }
+
+        /* Scroll Sections & Animations */
+        .scroll-section {
+            min-height: 80vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 4rem 2rem;
+            text-align: center;
+            box-sizing: border-box;
+        }
+
+        .row {
+            display: flex;
+            gap: 2rem;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .hidden, .hidden-left, .hidden-right {
+            opacity: 0;
+            filter: blur(5px);
+            transition: all 1s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        .hidden { transform: translateY(50px); }
+        .hidden-left { transform: translateX(-50px); }
+        .hidden-right { transform: translateX(50px); }
+
+        .show {
+            opacity: 1;
+            filter: blur(0);
+            transform: translate(0);
+        }
+
+        .delay-1 { transition-delay: 200ms; }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+
+        p {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            color: #d1d5db;
+            font-weight: 300;
+        }
+
+        /* Subtle spinning loader to indicate work is happening */
+        .loader {
+            width: 50px;
+            height: 50px;
+            margin: 0 auto 2rem;
+            border: 3px solid rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            border-top-color: #38bdf8;
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="glass-card hero-anim">
+            <div class="loader"></div>
+            <h1>Work in Progress</h1>
+            <p>I'm currently crafting my new professional portfolio. Scroll down to see some upcoming animations!</p>
+        </div>
+    </section>
+
+    <!-- First Scroll Section -->
+    <section class="scroll-section">
+        <h2 class="hidden" style="font-size: 2rem; margin-bottom: 1rem;">What's Coming?</h2>
+        <p class="hidden delay-1" style="max-width: 600px; color: #d1d5db; font-size: 1.1rem; line-height: 1.6;">
+            A fully responsive, highly interactive personal website designed to showcase my projects, skills, and professional journey.
+        </p>
+    </section>
+
+    <!-- Second Scroll Section with Cards -->
+    <section class="scroll-section row">
+        <div class="glass-card hidden-left" style="max-width: 300px; padding: 2rem;">
+            <h3 style="margin-top: 0; color: #38bdf8;">Professional</h3>
+            <p style="font-size: 1rem; margin-bottom: 0;">Clean code, optimized performance, and modern design principles.</p>
+        </div>
+        <div class="glass-card hidden-right delay-1" style="max-width: 300px; padding: 2rem;">
+            <h3 style="margin-top: 0; color: #38bdf8;">Interactive</h3>
+            <p style="font-size: 1rem; margin-bottom: 0;">Engaging scroll animations that bring the whole page to life.</p>
+        </div>
+    </section>
+
+    <script>
+        // Intersection Observer for scroll animations
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('show');
+                }
+            });
+        });
+
+        // Select all elements with hidden classes and observe them
+        const hiddenElements = document.querySelectorAll('.hidden, .hidden-left, .hidden-right');
+        hiddenElements.forEach((el) => observer.observe(el));
+    </script>
+</body>
+</html>
